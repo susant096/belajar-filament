@@ -18,6 +18,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class PostResource extends Resource
 {
@@ -31,10 +32,16 @@ class PostResource extends Resource
             ->schema([
                 TextInput::make('title')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->live(onBlur: true) // supaya slug otomatis saat user selesai mengetik judul
+                    ->afterStateUpdated(function (callable $set, $state) {
+                        $set('slug', Str::slug($state));   // otomatis ubah slug berdasarkan judul
+                    }),
 
                 TextInput::make('slug')
                     ->required()
+                    ->disabled()
+                    ->dehydrated()// tetap dikirim ke database
                     ->maxLength(255),
 
                 RichEditor::make('content')
@@ -45,8 +52,7 @@ class PostResource extends Resource
                     ->image()
                     ->directory('post')
                     ->visibility('public')
-                    ->imagePreviewHeight('200')
-                    ->required(),
+                    ->imagePreviewHeight('200'),
             ]);
     }
 
@@ -56,7 +62,6 @@ class PostResource extends Resource
             ->columns([
                 TextColumn::make('title')
                     ->searchable(),
-
                 TextColumn::make('slug'),
                 TextColumn::make('created_at')
                     ->dateTime()
