@@ -7,11 +7,13 @@ use App\Filament\Resources\PostResource\RelationManagers;
 use App\Models\Post;
 use Dom\Text;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,6 +40,13 @@ class PostResource extends Resource
                 RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
+                FileUpload::make('thumbnail')
+                    ->label('Gambar utama')
+                    ->image()
+                    ->directory('post')
+                    ->visibility('public')
+                    ->imagePreviewHeight('200')
+                    ->required(),
             ]);
     }
 
@@ -49,10 +58,12 @@ class PostResource extends Resource
                     ->searchable(),
 
                 TextColumn::make('slug'),
-
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
+                ImageColumn::make('thumbnail')
+                    ->label('gambar')
+                    ->square(),
             ])
             ->filters([
                 //
