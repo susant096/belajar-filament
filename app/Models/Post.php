@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 class Post extends Model
 {
     protected $table = 'posts';
-    protected $fillable = ['title', 'content', 'slug', 'thumbnail'];
+    protected $fillable = ['title', 'content', 'slug', 'thumbnail', 'user_id'];
 
     protected static function booted()
     {
@@ -42,5 +42,10 @@ class Post extends Model
                 $post->slug = $slug;
             }
         });
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

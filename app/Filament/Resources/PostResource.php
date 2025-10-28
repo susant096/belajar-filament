@@ -44,6 +44,10 @@ class PostResource extends Resource
                     ->dehydrated()// tetap dikirim ke database
                     ->maxLength(255),
 
+                // TextInput::make('user_id')
+                //     ->default(fn() => auth()->user()->id),
+
+
                 RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
