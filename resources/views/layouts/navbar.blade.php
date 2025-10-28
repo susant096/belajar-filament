@@ -13,7 +13,13 @@
                 <a class="nav-link disabled" aria-disabled="true">Disabled</a> --}}
             </div>
             <div class="navbar-nav">
-                <a href="#" class="nav-link">Login</a>
+                @if (auth()->user())
+                    <a href="{{ route('login') }}" class="nav-link">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="nav-link">Login</a>
+                @endif
+                <span class="d-none d-lg-block nav-link">|</span>
+                <a href="{{ route('register') }}" class="nav-link">Register</a>
             </div>
         </div>
     </div>
