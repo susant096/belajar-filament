@@ -1,4 +1,19 @@
-<div>
+<div x-data="{
+    init() {
+        // Fitur otomatis load saat scroll (jika browser mendukung)
+        if ('IntersectionObserver' in window) {
+            let observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        Livewire.dispatch('load-more');
+                    }
+                });
+            });
+            observer.observe(this.$refs.loadMoreTrigger);
+        }
+    }
+}" class="space-y-3">
+
     <div class="comment mt-5">
         <p class="fw-bold">Comment:</p>
         <form wire:submit.prevent="addComment">
@@ -31,4 +46,24 @@
             </div>
         @endforelse
     </div>
+
+    <div wire:loading class="d-flex justify-content-center">
+        <div wire:loading class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    {{-- Tombol Load More (fallback) --}}
+    @if ($hasMore)
+        <div class="text-center mt-2">
+            <button wire:click="loadMore" class="btn btn-outline-secondary btn-sm" wire:loading.attr="disabled">
+                Load More
+            </button>
+        </div>
+    @else
+        <div class="text-center text-muted small">
+            <em>Semua komentar sudah ditampilkan</em>
+        </div>
+    @endif
+    <div x-ref="loadMoreTrigger" class="mt-3"></div>
 </div>
