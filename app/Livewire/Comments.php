@@ -27,6 +27,7 @@ class Comments extends Component
         ]);
 
         $this->reset('content');
+        $this->dispatch('comment-added');
     }
 
     public function render()

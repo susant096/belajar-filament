@@ -8,7 +8,7 @@
     </div>
     {!! $post->content !!}
 
-    <livewire:like-post />
+    <livewire:like-post :post="$post" />
 
     <livewire:comments :post="$post" />
 @endsection
