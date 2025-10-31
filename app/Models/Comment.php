@@ -13,9 +13,18 @@ class Comment extends Model
         'user_id',
         'post_id',
         'content',
+        'status'
     ];
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
     }
 }

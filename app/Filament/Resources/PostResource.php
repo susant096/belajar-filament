@@ -79,6 +79,10 @@ class PostResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('comments')
+                    ->label('Comments')
+                    ->icon('heroicon-o-chat-bubble-left')
+                    ->url(fn($record) => PostResource::getUrl('view', ['record' => $record])),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -90,7 +94,8 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+                //
+            RelationManagers\CommentsRelationManager::class,
         ];
     }
 
@@ -100,6 +105,7 @@ class PostResource extends Resource
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
+            'view' => Pages\ViewPost::route('/{record}'),
         ];
     }
 }

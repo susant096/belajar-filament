@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained();
             $table->foreignId('post_id')->constrained();
             $table->longText('content');
+            $table->enum('status', ['active', 'taken_down'])->default('active');
             $table->timestamps();
         });
     }

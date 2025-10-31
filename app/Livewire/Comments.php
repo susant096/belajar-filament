@@ -9,7 +9,7 @@ use Livewire\Component;
 class Comments extends Component
 {
     public $post, $content;
-    public $perPage = 20;
+    public $perPage = 5;
     public $hasMore = true;
 
     public function mount($post)
@@ -19,7 +19,7 @@ class Comments extends Component
     #[On('load-more')]
     public function loadMore()
     {
-        $this->perPage += 20;
+        $this->perPage += 5;
     }
     public function getCommentsProperty()
     {
